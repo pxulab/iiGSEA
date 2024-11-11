@@ -48,9 +48,10 @@ for (i in unique(gene_set$marker_group)) {
 
 # Perform GSEA
 iiGSEA_result <- iiGSEA(normalized_data, gs)
-iiGSEA_es <- iiGSEA_result[[1]]
-iiGSEA_cutoff <- iiGSEA_result[[2]]
-iiGSEA_markers <- iiGSEA_result[[3]]
+
+iiGSEA_es <- iiGSEA_result[[1]] # Enrichment score
+iiGSEA_cutoff <- iiGSEA_result[[2]] # Enrichment score cutoff
+iiGSEA_markers <- iiGSEA_result[[3]] # Marker gene information for GSEA input
 ```
 
 (Optional) Run iiGSEA with imputed expression matrix, without iteration.
