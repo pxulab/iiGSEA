@@ -28,6 +28,9 @@ Below is a quick demonstration of how to use the `iiGSEA` package:
 
 ```r
 library(iiGSEA)
+library(reticulate) # Use reticulate for MAGIC imputation
+use_python("/usr/bin/python3", required = TRUE) # Set MAGIC environment
+
 
 # Load normalized gene expression data
 normalized_data <- readRDS("iiGSEA/data/pancreas_normalized.RDS")
@@ -38,7 +41,7 @@ gene_set <- read.delim("iiGSEA/data/input_gene_set.tsv")
 # Prepare gene sets for analysis
 gs <- list()
 for (i in unique(gene_set$marker_group)) {
-  target_gs <- as.list(gene_set[gene_set$marker_group == i, "gene"])
+  target_gs <- list(gene_set[gene_set$marker_group == i, "gene"])
   names(target_gs) <- i
   gs <- c(gs, target_gs)
 }
@@ -46,7 +49,8 @@ for (i in unique(gene_set$marker_group)) {
 # Perform GSEA
 iiGSEA_result <- iiGSEA(normalized_data, gs)
 iiGSEA_es <- iiGSEA_result[[1]]
-iiGSEA_markers <- iiGSEA_result[[2]]
+iiGSEA_cutoff <- iiGSEA_result[[2]]
+iiGSEA_markers <- iiGSEA_result[[3]]
 ```
 
 (Optional) Run iiGSEA with imputed expression matrix, without iteration.
